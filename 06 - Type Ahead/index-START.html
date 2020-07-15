@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Type Ahead 👀</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <form class="search-form">
+    <input type="text" class="search" placeholder="City or State">
+    <ul class="suggestions">
+      <li>Filter for a city</li>
+      <li>or a state</li>
+    </ul>
+  </form>
+<script>
+const endpoint = 'https://gist.githubusercontent.com/Miserlou/c5cd8364bf9b2420bb29/raw/2bf258763cdddd704f8ffd3ea9a3e81d25e2c6f6/cities.json';
+
+// need to create an empty array to hold list of cities
+const cities = [];
+
+// need to do a fetch request to grab list of json data from endpoint link
+fetch(endpoint)
+  // returning the info and turning into json
+  .then(blob => blob.json())
+  // this gets you the list of the cities in JSON format. Using spread operator to get all individually
+  .then(data => cities.push(...data))
+
+ 
+function findMatches(wordToMatch, cities){
+  return cities.filter(place => {
+    // check if city or state matches what was written
+    const regex = new RegExp(wordToMatch, 'gi');
+    // check in matches city or state
+    return place.city.match(regex) || place.state.match(regex)
+  })
+}
+
+function displayMatches() {
+  const matchArray = findMatches(this.value, cities);
+  const html = matchArray.map(place => {
+    const regex = new RegExp(this.value, 'gi');
+    const cityName = place.city.replace(regex, `<span class='hl'>${this.value}</span>`)
+    const stateName = place.state.replace(regex, `<span class='hl'>${this.value}</span>`)
+    return `
+      <li>
+        <span class='name'>${cityName}, ${stateName}</span>
+        <span class='population'>${place.population}</span>
+      </li>
+    `
+  }).join('')
+  suggestions.innerHTML = html;
+}
+
+const searchInput = document.querySelector('.search')
+const suggestions = document.querySelector('.suggestions')
+
+searchInput.addEventListener('change', displayMatches)
+searchInput.addEventListener('keyup', displayMatches)
+
+</script>
+</body>
+</html>
