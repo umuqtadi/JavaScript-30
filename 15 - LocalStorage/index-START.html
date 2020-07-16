@@ -41,16 +41,19 @@
     }
     // want to take item and push it into the items array
     items.push(item);
+    populateList(items, itemsList);
+    localStorage.setItem('items', JSON.stringify(items));
     // this refers to the form element, and has the ability to reset
     this.reset();
   }
 
   function populateList(plates = [], platesList) {
     // this is turning the array we get into an HTML list and make it a string
-    platesList.innerHtml = plates.map((plate, i) => {
+    platesList.innerHTML = plates.map((plate, i) => {
       return `
         <li>
-            <label for="">${plate.text}</label>
+          <input type="checkbos" data-index=${i} id="item${i}" ${plate.done ? 'checked' : ''}/>
+            <label for="item${i}">${plate.text}</label>
         </li>
       `;
     }).join('');
