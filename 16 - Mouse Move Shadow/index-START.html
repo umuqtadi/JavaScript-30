@@ -42,7 +42,23 @@
 
   // function that will create the shadow effect when we mouseover the hero div, something will happen upon event
   function shadow(e) {
-    console.log(e);
+    const width = hero.offsetWidth;
+    const height = hero.offsetHeight;
+    const walk = 100; // 100px
+    // this is destructuring
+    let {offsetX : x, offsetY: y} = e;
+
+
+    if(this != e.target) {
+      x = x+e.target.offsetLeft;
+      y = y+e.target.offsetTop;
+    }
+    // this is placing the text in a certain area will only let is got half the width away at most
+    const xWalk = (x / width * walk) - (walk/2);
+    const yWalk = (y / height * walk) - (walk/2);
+
+    console.log(xWalk, yWalk);
+
   }
 
   // adding event listener to to hero where it will run shadow function when someone does mouseover
