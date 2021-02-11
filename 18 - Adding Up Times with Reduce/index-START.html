@@ -182,6 +182,21 @@
     </li>
   </ul>
 <script>
+
+  //this is gathering all the items that have and li that has data-time in it
+  //added array.from at the beginning because it was originally coming up as a node list, not an array
+  const timeNodes = Array.from(document.querySelectorAll('[data-time]'));
+
+  const seconds = timeNodes
+    //makes are array of the times
+    .map(node => node.dataset.time)
+    //trying to get the numbers and split them between minutes and seconds
+    .map(timeCode => {
+      const[mins, secs] = timeCode.split(':');
+      console.log(mins, secs);
+    })
+
+
 </script>
 </body>
 </html>
