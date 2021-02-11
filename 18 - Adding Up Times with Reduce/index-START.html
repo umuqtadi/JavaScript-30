@@ -192,10 +192,17 @@
     .map(node => node.dataset.time)
     //trying to get the numbers and split them between minutes and seconds
     .map(timeCode => {
-      const[mins, secs] = timeCode.split(':');
-      console.log(mins, secs);
+      //had to use parseFloat to change numbers from string to floats that way you can do math on them
+      const[mins, secs] = timeCode.split(':').map(parseFloat);
+      //math that turns mins into secs
+      return (mins*60)+secs;
     })
+    //reduce can take an array an return anything that you want
+    .reduce((total, vidSeconds) => total + vidSeconds)
 
+    let secondsLeft = seconds;
+    const hours = Math.floor(secondsLeft/3600);
+    secondsLeft = secondsLeft % 3600;
 
 </script>
 </body>
